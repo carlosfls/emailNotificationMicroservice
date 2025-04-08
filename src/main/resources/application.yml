@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: emailNotificationMicroservice
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092, localhost:9094
+      #key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: product-created-events
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "com.carlosacademic.producteventscore"
+
+server:
+  port: 8200
+
