@@ -5,6 +5,7 @@ import com.carlosacademic.producteventscore.ProductCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,8 @@ public class ProductCreatedEventHandler {
 
     @KafkaHandler
     public void handle(@Payload ProductCreatedEvent event,
-                       @Header(name = "messageId") String messageId) {
+                       @Header(name = "messageId") String messageId,
+                       @Header (KafkaHeaders.RECEIVED_KEY) String messageKey) {
         log.info("Message received!!!");
         validate(event);
         log.info("Received messageId: {}, content {}",messageId, event);
