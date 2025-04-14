@@ -21,7 +21,7 @@ public class ProductCreatedEventHandler {
                        @Header (KafkaHeaders.RECEIVED_KEY) String messageKey) {
         log.info("Message received!!!");
         validate(event);
-        log.info("Received messageId: {}, content {}",messageId, event);
+        log.info("Received messageId: {}, key {}, content {}",messageId, messageKey, event);
     }
 
     private void validate(ProductCreatedEvent event) throws NonRetryableException {
