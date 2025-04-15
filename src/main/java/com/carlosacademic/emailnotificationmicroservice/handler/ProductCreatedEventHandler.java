@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -28,8 +27,8 @@ public class ProductCreatedEventHandler {
     @Transactional
     @KafkaHandler
     public void handle(@Payload ProductCreatedEvent event,
-                       @Header("messageId") String messageId,
-                       @Header (KafkaHeaders.RECEIVED_KEY) String messageKey) {
+                       @Header("messageId") String messageId) {
+
         checkIfMessageWasProcessed(messageId);
         validate(event);
         saveProcessedEvent(messageId, event);
