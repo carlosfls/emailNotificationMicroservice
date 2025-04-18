@@ -1,7 +1,6 @@
 package com.carlosacademic.emailnotificationmicroservice.config;
 
 import com.carlosacademic.emailnotificationmicroservice.errors.NonRetryableException;
-import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -26,21 +25,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@RequiredArgsConstructor
 public class KafkaConfig {
 
     final Environment environment;
 
+    public KafkaConfig(Environment environment) {
+        this.environment = environment;
+    }
+
     @Bean
     public ConsumerFactory<String, Object> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
+
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, environment.getProperty("kafka.bootstrap-servers"));
         config.put(ConsumerConfig.GROUP_ID_CONFIG, environment.getProperty("kafka.group-id"));
         config.put(JsonDeserializer.TRUSTED_PACKAGES, environment.getProperty("kafka.trusted-packages"));
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        //error handling
+        // Error handling
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 
         return new DefaultKafkaConsumerFactory<>(config);
     }

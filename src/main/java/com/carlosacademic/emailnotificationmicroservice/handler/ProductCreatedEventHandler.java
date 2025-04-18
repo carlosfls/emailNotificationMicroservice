@@ -4,8 +4,6 @@ import com.carlosacademic.emailnotificationmicroservice.entity.ProcessedEventEnt
 import com.carlosacademic.emailnotificationmicroservice.errors.NonRetryableException;
 import com.carlosacademic.emailnotificationmicroservice.repositories.ProcessedEventRepository;
 import com.carlosacademic.producteventscore.ProductCreatedEvent;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -16,13 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Slf4j
 @Component
 @KafkaListener(topics = "product-created-events-topic")
-@RequiredArgsConstructor
 public class ProductCreatedEventHandler {
 
     private final ProcessedEventRepository processedEventRepository;
+
+    public ProductCreatedEventHandler(ProcessedEventRepository processedEventRepository) {
+        this.processedEventRepository = processedEventRepository;
+    }
 
     @Transactional
     @KafkaHandler
