@@ -17,6 +17,7 @@ kafka:
   bootstrap-servers: localhost:9092, localhost:9094
   group-id: product-created-events
   trusted-packages: "com.carlosacademic.producteventscore"
+  consumer-isolation-level: read_committed
 
 server:
   port: 8200

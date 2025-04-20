@@ -46,6 +46,9 @@ public class KafkaConfig {
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
 
+        //read only commited messages (transaction ability)
+        config.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, environment.getProperty("kafka.consumer-isolation-level"));
+
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
