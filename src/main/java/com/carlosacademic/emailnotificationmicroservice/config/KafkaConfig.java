@@ -49,6 +49,9 @@ public class KafkaConfig {
         //read only commited messages (transaction ability)
         config.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, environment.getProperty("kafka.consumer-isolation-level"));
 
+        //para que lea todos los mensajes desde el inicio del topic y lo solo el último
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, environment.getProperty("kafka.auto-offset-reset"));
+
         return new DefaultKafkaConsumerFactory<>(config);
     }
 

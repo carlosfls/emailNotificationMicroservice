@@ -18,6 +18,7 @@ kafka:
   group-id: product-created-events
   trusted-packages: "com.carlosacademic.producteventscore"
   consumer-isolation-level: read_committed
+  auto-offset-reset: earliest
 
 server:
   port: 8200
